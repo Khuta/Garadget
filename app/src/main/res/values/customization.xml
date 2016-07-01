@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--PRODUCT/BRAND INFO-->
+    <string name="brand_name">Garadget</string>
+    <string name="device_name">Garadget</string>
+    <drawable name="device_image">@drawable/photon_vector</drawable>
+    <drawable name="device_image_small">@drawable/garadget_device</drawable>
+    <drawable name="brand_image_horizontal">@drawable/particle_horizontal_blue</drawable>
+    <drawable name="brand_image_vertical">@drawable/particle_vertical_blue</drawable>
+    <drawable name="screen_background">@android:color/white</drawable>
+    <color name="brand_image_background_color">#641A1A1A</color>
+
+    <!--TECHNICAL DATA-->
+
+    <string name="mode_button_name">Mode button</string>
+    <string name="listen_mode_led_color_name">blue</string>
+    <string name="network_name_prefix">Photon</string>
+
+    <!--LEGAL/TECHNICAL INFO-->
+    <string name="terms_of_service_uri">https://www.particle.io/tos</string>
+    <string name="privacy_policy_uri">https://www.particle.io/privacy</string>
+    <string name="forgot_password_uri">https://www.particle.io/forgot-password</string>
+    <string name="troubleshooting_uri">https://community.particle.io/t/spark-core-troubleshooting-guide-spark-team/696</string>
+    <string name="terms_of_service_html_file">NOT_DEFINED</string>
+    <string name="privacy_policy_html_file">NOT_DEFINED</string>
+    <string name="forgot_password_html_file">NOT_DEFINED</string>
+    <string name="troubleshooting_html_file">NOT_DEFINED</string>
+    <bool name="show_sign_up_page_fine_print">true</bool>
+
+    <!--TECHNICAL DATA-->
+    <color name="page_background_color">@color/primary</color>
+    <color name="form_field_background_color">@android:color/white</color>
+    <color name="normal_text_color">@android:color/black</color>
+    <color name="link_text_color">@color/gray</color>
+    <color name="link_text_bg">#19AAAAAA</color>
+    <color name="error_text_color">#FE4747</color>
+    <color name="element_background_color">@color/primary</color>
+    <color name="element_background_color_dark">@color/primary</color>
+    <color name="element_text_color">@android:color/white</color>
+    <color name="element_text_disabled_color">@color/gray</color>
+
+</resources>

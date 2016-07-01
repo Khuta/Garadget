@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <include layout="@layout/view_divider" />
+
+    <TextView
+        style="@style/TextViewHeaderStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/night_alerts" />
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enabled"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:id="@+id/switch_night_time"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height"
+            />
+
+        />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_night_alerts"
+        android:visibility="gone">
+
+        <include layout="@layout/view_divider" />
+
+        <LinearLayout
+            style="@style/SettingsItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/from"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_night_alert_time_from"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_height"
+                android:text="Time from"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+
+        <LinearLayout
+            style="@style/SettingsItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/text_night_alert_time_to"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_height"
+                android:text="Time to"
+                android:gravity="center_vertical"/>
+
+
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+
+        <LinearLayout
+            style="@style/SettingsItemStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+
+            <Spinner
+                android:id="@+id/spinner_timezones"
+                style="@style/SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+    </LinearLayout>
+
+
+</LinearLayout>

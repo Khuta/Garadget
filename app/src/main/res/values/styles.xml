@@ -1,0 +1,101 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--<item name="editTextStyle">@style/EditTextStyle</item>-->
+        <!--<item name="android:editTextStyle">@style/EditTextStyle</item>-->
+    </style>
+
+    <style name="AppTheme2" parent="@style/ParticleSetupTheme.NoActionBar">
+        <!--<item name="editTextStyle">@style/EditTextStyle</item>-->
+        <!--<item name="android:editTextStyle">@style/EditTextStyle</item>-->
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/edit_editable</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="TextViewTitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextViewDescriptionStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:gravity">right|center_vertical</item>
+    </style>
+
+    <style name="TextViewHeaderStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@color/header_background</item>
+        <item name="android:height">@dimen/header_height</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/edit_editable</item>
+        <!--<item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>-->
+        <!--<item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemStyle</item>-->
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SpinnerItemStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+    </style>
+
+    <style name="SpinnerDropDownItemStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+    </style>
+
+    <style name="SettingsItemStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+    </style>
+
+    <style name="ProgressBarStyle" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:gravity">center</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateTint">@color/primary</item>
+        <item name="android:indeterminateTintMode">src_in</item>
+    </style>
+
+    <style name="ToolbarStyle">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+    </style>
+    <style name="SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+
+    <!-- Active thumb color & Active track color(30% transparency) -->
+    <item name="colorControlActivated">@color/primary</item>
+    <!-- Inactive thumb color -->
+    <item name="colorSwitchThumbNormal">@android:color/white</item>
+    <!-- Inactive track color(30% transparency) -->
+    <item name="android:colorForeground">@color/primary_color_dark</item>
+    </style>
+
+    <style name="LinkText" parent="android:Widget.Holo.TextView">
+        <item name="android:padding">4dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/link_text_color</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/link_text_selector</item>
+    </style>
+
+</resources>

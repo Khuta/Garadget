@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_divider" />
+
+    <TextView
+        style="@style/TextViewHeaderStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_device" />
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/id" />
+
+        <TextView
+            android:id="@+id/text_device_id"
+            style="@style/TextViewDescriptionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ffffdfdfdffwefwfwef" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name" />
+
+        <EditText
+            android:id="@+id/edit_device_name"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2dp"
+            android:text="Homed" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/status" />
+
+        <TextView
+            android:id="@+id/text_status"
+            style="@style/TextViewDescriptionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ffffdfdfdffwefwfwef" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_contact" />
+
+        <TextView
+            android:id="@+id/text_last_contact"
+            style="@style/TextViewDescriptionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ffffdfdfdffwefwfwef" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        android:id="@+id/linear_firmware_version"
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/firmware_version" />
+
+        <TextView
+            android:id="@+id/text_firmware_version"
+            style="@style/TextViewDescriptionStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ffffdfdfdffwefwfwef" />
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+</LinearLayout>

@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvp.views.SettingsActivity">
+
+    <include layout="@layout/toolbar"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/layout_settings_device"
+                    layout="@layout/layout_settings_device" />
+
+                <include
+                    android:id="@+id/layout_settings_wifi"
+                    layout="@layout/layout_settings_wifi" />
+
+                <include
+                    android:id="@+id/layout_settings_sensor"
+                    layout="@layout/layout_settings_sensor" />
+
+                <include
+                    android:id="@+id/layout_settings_door"
+                    layout="@layout/layout_settings_door" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progress_setting"
+            style="@style/ProgressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical">
+
+    <include layout="@layout/view_divider" />
+
+    <TextView
+        style="@style/TextViewHeaderStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/timeout_alert" />
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enabled"
+            android:layout_weight="1"/>
+
+        <Switch
+            android:id="@+id/switch_timeout_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_height"
+             />
+
+        />
+
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+    <LinearLayout
+        style="@style/SettingsItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal"
+        android:id="@+id/layout_timeout_times">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:id="@+id/spinner_timeout_times"
+            style="@style/SpinnerStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider" />
+
+
+</LinearLayout>

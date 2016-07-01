@@ -1,0 +1,74 @@
+<resources>
+
+    <string name="app_name">Garadget</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_main_activity">Doors</string>
+
+    <string name="project_id">123457890</string>
+
+    <string name="title_device">Device</string>
+    <string name="title_wifi_radio">WiFi Radio</string>
+    <string name="title_sensor">Sensor</string>
+    <string name="title_door">Door</string>
+
+    <string name="id">ID</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="last_contact">Last Contact</string>
+    <string name="firmware_version">Firmware Version</string>
+    <string name="wifi_ssid">WiFi SSID</string>
+    <string name="signal_strength">Signal Strength</string>
+    <string name="ip">IP</string>
+    <string name="gateway">Gateway</string>
+    <string name="ip_mask">IP Mask</string>
+    <string name="mac">MAC</string>
+    <string name="reflection">Reflection</string>
+    <string name="scan_period">Scan Period</string>
+    <string name="sensor_reads">Sensor Reads</string>
+    <string name="sensor_threshold">Sensor Threshold</string>
+    <string name="door_motion_time">Door Motion Time</string>
+    <string name="relay_on_time">Relay On Time</string>
+    <string name="relay_off_time">Relay Off Time</string>
+
+    <string name="logout">Logout</string>
+    <string name="not_connected">not connected</string>
+    <string name="currently_offline">This Garadget is currently offline</string>
+    <string name="normal">normal</string>
+    <string name="offline">offline</string>
+    <string name="ok">Ok</string>
+
+    <string name="network_error_title">Network Error</string>
+    <string name="network_error_message">Check your Internet connection please!</string>
+    <string name="title_activity_alerts">Alerts</string>
+    <string name="title_activity_help">Help</string>
+
+    <string name="event_alerts">EVENT ALERTS</string>
+    <string name="alert">Alert</string>
+    <string name="online">Online:</string>
+    <string name="open">Open:</string>
+    <string name="closed">Closed:</string>
+    <string name="stopped">Stopped:</string>
+    <string name="offline_alerts">Offline:</string>
+    <string name="enabled">Enabled</string>
+    <string name="reboot">Reboot:</string>
+    <string name="timeout_alert">TIMEOUT ALERT</string>
+    <string name="night_alerts">NIGHT ALERTS</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="location">Location</string>
+    <string name="door_radius">Door Radius</string>
+    <string name="radius">Radius</string>
+    <string name="push_url">https://www.garadget.com/my/json/pn-signup.php</string>
+    <string name="help_page_url">http://community.garadget.com/?ref=webapp&amp;page=alerts</string>
+    <string name="oauth_client_id">Write your client id here</string>
+    <string name="oauth_client_secret">Write your client secret</string>
+
+    <string name="error_sending_command">There was an error sending the command. Please try again.</string>
+    <string name="alerts_updated">Successfully updated Event Alerts</string>
+    <string name="meters">meters</string>
+    <string name="miles">miles</string>
+    <string name="kilometers">km</string>
+</resources>

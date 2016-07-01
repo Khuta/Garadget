@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="drawer_width">300dp</dimen>
+    <dimen name="drawer_item_margin_vertical">10dp</dimen>
+    <dimen name="drawer_item_margin_horizontal">14dp</dimen>
+    <dimen name="drawer_item_margin_horizontal_from_icon">28dp</dimen>
+</resources>
