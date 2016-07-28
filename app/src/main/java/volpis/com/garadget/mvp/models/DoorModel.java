@@ -99,9 +99,9 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                     String doorConfigString = device.getStringVariable("doorConfig");
                                     String doorStatusString = device.getStringVariable("doorStatus");
                                     String netConfigString = device.getStringVariable("netConfig");
-                                    DoorConfig doorConfig = GaradgetParser.parse(doorConfigString, DoorConfig.class);
-                                    DoorStatus doorStatus = GaradgetParser.parse(doorStatusString, DoorStatus.class);
-                                    NetConfig netConfig = GaradgetParser.parse(netConfigString, NetConfig.class);
+                                    DoorConfig doorConfig = GaradgetParser.parse(mContext, doorConfigString, DoorConfig.class);
+                                    DoorStatus doorStatus = GaradgetParser.parse(mContext, doorStatusString, DoorStatus.class);
+                                    NetConfig netConfig = GaradgetParser.parse(mContext, netConfigString, NetConfig.class);
                                     door = new Door(doorConfig, doorStatus, netConfig, device);
                                 } catch (ParticleDevice.VariableDoesNotExistException e) {
                                     e.printStackTrace();
@@ -112,7 +112,7 @@ public class DoorModel implements DoorsMVP.ModelOps {
                         }
 
                         subscribeToEvents(doorHolders);
-                        if (mContext != null)
+                        if (mContext != null && !((Activity) mContext).isFinishing())
                             ((Activity) mContext).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -182,7 +182,7 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                                 ((Activity) mContext).runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        DoorConfig doorConfig = GaradgetParser.parse(response.getData(), DoorConfig.class);
+                                                        DoorConfig doorConfig = GaradgetParser.parse(mContext, response.getData(), DoorConfig.class);
                                                         doorHolder.getDoor().setDoorConfig(doorConfig);
                                                         doorHolder.fillView(mContext, doorHolder.getDoor());
 
@@ -198,22 +198,23 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                                 break;
                                         }
                                     } else {
-                                        switch (particleEvent.dataPayload) {
-                                            case StatusConstants.OPENING:
-                                                if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
-                                                    mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), true, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
-                                                doorHolder.setStatusChangeTime(System.currentTimeMillis());
-                                                doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.OPEN);
-                                                ((MainActivity) mContext).checkLocationListenerStart();
-                                                break;
-                                            case StatusConstants.CLOSING:
-                                                if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
-                                                    mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), false, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
-                                                doorHolder.setStatusChangeTime(System.currentTimeMillis());
-                                                doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.CLOSED);
-                                                ((MainActivity) mContext).checkLocationListenerStart();
-                                                break;
-                                        }
+                                        if (doorHolder != null && doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null)
+                                            switch (particleEvent.dataPayload) {
+                                                case StatusConstants.OPENING:
+                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
+                                                        mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), true, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                                    doorHolder.setStatusChangeTime(System.currentTimeMillis());
+                                                    doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.OPEN);
+                                                    ((MainActivity) mContext).checkLocationListenerStart();
+                                                    break;
+                                                case StatusConstants.CLOSING:
+                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
+                                                        mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), false, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                                    doorHolder.setStatusChangeTime(System.currentTimeMillis());
+                                                    doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.CLOSED);
+                                                    ((MainActivity) mContext).checkLocationListenerStart();
+                                                    break;
+                                            }
 
                                         break;
                                     }

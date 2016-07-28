@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,8 +88,15 @@ public class Utils {
             imageResource = R.drawable.ic_signal_05;
         else
             imageResource = R.drawable.ic_signal_06;
-        return context.getResources().getDrawable(imageResource);
+        if (context != null)
+            return context.getResources().getDrawable(imageResource);
+        else {
+            Log.d("myLogs", "getSignalStrengthDrawable NULL");
+            return null;
+        }
     }
+
+
 
     public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

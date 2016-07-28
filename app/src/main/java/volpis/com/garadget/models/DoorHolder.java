@@ -36,19 +36,21 @@ public class DoorHolder {
 
     public void fillView(Context context, Door door) {
         mDoor = door;
-        DoorConfig doorConfig = door.getDoorConfig();
-        textName.setText(mDoor.getName().replace("_", " "));
+        String doorName = mDoor.getName();
+        if (doorName != null)
+            textName.setText(mDoor.getName().replace("_", " "));
 
         DoorStatus doorStatus = door.getDoorStatus();
         if (door.getDevice().isConnected()) {
-            if (doorStatus != null) {
-                textStatus.setText(doorStatus.getStatus()+" "+doorStatus.getTime());
+            if (doorStatus != null && doorStatus.getStatus()!=null) {
+                textStatus.setText(doorStatus.getStatus() + " " + doorStatus.getTime());
                 imageDoor.setImageResource(doorStatus.getStatus().equals(StatusConstants.OPEN) ? R.drawable.ic_anim_garage_15 : R.drawable.ic_anim_garage_01);
                 imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, door.getDoorStatus().getSignalStrength()));
             }
         } else {
             long lastContactMillis = System.currentTimeMillis() - door.getDevice().getLastHeard().getTime();
-            textStatus.setText(context.getString(R.string.offline) + " " + Utils.toFormattedTime(lastContactMillis));
+            if (context != null)
+                textStatus.setText(context.getString(R.string.offline) + " " + Utils.toFormattedTime(lastContactMillis));
             imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, null));
         }
     }

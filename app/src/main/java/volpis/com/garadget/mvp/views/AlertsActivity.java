@@ -141,7 +141,7 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
         mPresenter = new AlertPresenter(this, this);
         setOnCheckedChangeListener();
     }
-    
+
     private void initValues() {
         radiuses = getResources().getStringArray(R.array.radiuses);
         textTitle.setText(getString(R.string.title_activity_alerts));
@@ -420,16 +420,35 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
             mLayoutLocation.setVisibility(View.GONE);
         }
         removeOnCheckedChangeListener();
-        int timeOutValue = door.getDoorConfig().getOpenTimeout();
-        String timezoneValue = door.getDoorConfig().getTzo();
-        int status = door.getDoorConfig().getStatusAlerts();
-        switchClosed.setChecked(Utils.getBit(status, BitStatesConstants.STATE_CLOSED) == 1);
-        switchOpen.setChecked(Utils.getBit(status, BitStatesConstants.STATE_OPENING) == 1);
-        switchStopped.setChecked(Utils.getBit(status, BitStatesConstants.STATE_STOPPED) == 1);
-        switchReboot.setChecked(Utils.getBit(status, BitStatesConstants.STATE_INIT) == 1);
-        switchOnline.setChecked(Utils.getBit(status, BitStatesConstants.STATE_ONLINE) == 1);
-        switchOffline.setChecked(Utils.getBit(status, BitStatesConstants.STATE_OFFLINE) == 1);
+        if (door.getDoorConfig() != null) {
+            int timeOutValue = door.getDoorConfig().getOpenTimeout();
+            String timezoneValue = door.getDoorConfig().getTzo();
+            int status = door.getDoorConfig().getStatusAlerts();
 
+            switchClosed.setChecked(Utils.getBit(status, BitStatesConstants.STATE_CLOSED) == 1);
+            switchOpen.setChecked(Utils.getBit(status, BitStatesConstants.STATE_OPENING) == 1);
+            switchStopped.setChecked(Utils.getBit(status, BitStatesConstants.STATE_STOPPED) == 1);
+            switchReboot.setChecked(Utils.getBit(status, BitStatesConstants.STATE_INIT) == 1);
+            switchOnline.setChecked(Utils.getBit(status, BitStatesConstants.STATE_ONLINE) == 1);
+            switchOffline.setChecked(Utils.getBit(status, BitStatesConstants.STATE_OFFLINE) == 1);
+
+            switchTimeout.setChecked(timeOutValue != 0);
+            showTimeoutLayout(timeOutValue != 0);
+
+            for (int i = 0; i < mTimeOutTimesSpinner.getCount(); i++) {
+                if (timeOutValue == ((int) (((Map.Entry) mTimeOutTimesSpinner.getItemAtPosition(i)).getValue()))) {
+                    mTimeOutTimesSpinner.setSelection(i);
+                    break;
+                }
+            }
+            for (int i = 0; i < mTimezonesSpinner.getCount(); i++) {
+                if (timezoneValue.equals(((Map.Entry) mTimezonesSpinner.getItemAtPosition(i)).getValue())) {
+                    mTimezonesSpinner.setSelection(i);
+                    break;
+                }
+            }
+
+        }
         mNightAlertTimeFrom = door.getDoorConfig().getNightTimeStart();
         mNightAlertTimeTo = door.getDoorConfig().getNightTimeEnd();
 
@@ -447,22 +466,6 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
             switchLocation.setChecked(doorLocation.isEnabled());
         else
             switchLocation.setChecked(false);
-
-        switchTimeout.setChecked(timeOutValue != 0);
-        showTimeoutLayout(timeOutValue != 0);
-
-        for (int i = 0; i < mTimeOutTimesSpinner.getCount(); i++) {
-            if (timeOutValue == ((int) (((Map.Entry) mTimeOutTimesSpinner.getItemAtPosition(i)).getValue()))) {
-                mTimeOutTimesSpinner.setSelection(i);
-                break;
-            }
-        }
-        for (int i = 0; i < mTimezonesSpinner.getCount(); i++) {
-            if (timezoneValue.equals(((Map.Entry) mTimezonesSpinner.getItemAtPosition(i)).getValue())) {
-                mTimezonesSpinner.setSelection(i);
-                break;
-            }
-        }
 
         if (doorLocation != null) {
             mSpinnerRadiuses.setSelection(SettingsActivity.getIndexByValue(radiuses, doorLocation.getRadius()));

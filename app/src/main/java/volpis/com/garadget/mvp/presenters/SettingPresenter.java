@@ -1,7 +1,9 @@
 package volpis.com.garadget.mvp.presenters;
 
 import android.content.Context;
+
 import java.lang.ref.WeakReference;
+
 import volpis.com.garadget.interfaces.SettingsMVP;
 import volpis.com.garadget.models.Door;
 import volpis.com.garadget.mvp.models.SettingModel;
@@ -32,25 +34,28 @@ public class SettingPresenter implements SettingsMVP.RequiredPresenterOps, Setti
 
     @Override
     public void updateConfig(Door door, String config) {
-        mView.get().showProgressBar(true);
+        if (mView != null && mView.get() != null)
+            mView.get().showProgressBar(true);
         mModel.updateConfig(door.getDevice().getID(), config);
     }
 
     @Override
     public void updateName(String doorId, String name) {
-        mModel.setDeviceName(doorId,name);
+        mModel.setDeviceName(doorId, name);
     }
 
 
     @Override
     public void onUpdatesSeved() {
-        mView.get().showProgressBar(false);
+        if (mView != null && mView.get() != null)
+            mView.get().showProgressBar(false);
     }
 
 
     @Override
     public void onError(String errorMsg) {
-        mView.get().showProgressBar(false);
+        if (mView != null && mView.get() != null)
+            mView.get().showProgressBar(false);
     }
 
 

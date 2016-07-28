@@ -51,6 +51,21 @@
         <item>13 Seconds|13000</item>
         <item>14 Seconds|14000</item>
         <item>15 Seconds|15000</item>
+        <item>16 Seconds|16000</item>
+        <item>17 Seconds|17000</item>
+        <item>18 Seconds|18000</item>
+        <item>19 Seconds|19000</item>
+        <item>20 Seconds|20000</item>
+        <item>21 Seconds|21000</item>
+        <item>22 Seconds|22000</item>
+        <item>23 Seconds|23000</item>
+        <item>24 Seconds|24000</item>
+        <item>25 Seconds|25000</item>
+        <item>26 Seconds|26000</item>
+        <item>27 Seconds|27000</item>
+        <item>28 Seconds|28000</item>
+        <item>29 Seconds|29000</item>
+        <item>30 Seconds|30000</item>
     </array>
 
     <array name="alert_timeout_times">

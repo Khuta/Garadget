@@ -188,9 +188,9 @@ public class MainActivity extends DrawerActivity {
         if (!SharedPreferencesUtils.getInstance().isSubscribedForEvents()) {
             String deviceIds = "";
             for (Door door : doors) {
-                if (door.getDevice().isConnected()) {
+                if (door != null && door.getDevice() != null && door.getDevice().isConnected()) {
                     DoorConfig doorConfig = door.getDoorConfig();
-                    if (doorConfig.getStatusAlerts() != 0 || (doorConfig.getOpenTimeout() != 0) || doorConfig.getNightTimeStart() != doorConfig.getNightTimeEnd()) {
+                    if (doorConfig != null && (doorConfig.getStatusAlerts() != 0 || (doorConfig.getOpenTimeout() != 0) || doorConfig.getNightTimeStart() != doorConfig.getNightTimeEnd())) {
                         if (deviceIds.length() > 0)
                             deviceIds += ",";
                         deviceIds += door.getDevice().getID();
@@ -216,13 +216,14 @@ public class MainActivity extends DrawerActivity {
     public void checkLocationListenerStart() {
         boolean needLocListener = false;
         for (Door door : doors) {
-            if (door != null && door.getDoorStatus() != null && (door.getDoorStatus().getStatus().equals(StatusConstants.OPEN) ||
-                    door.getDoorStatus().getStatus().equals(StatusConstants.OPENING) ||
-                    door.getDoorStatus().getStatus().equals(StatusConstants.STOPPED)) &&
-                    App.getDatabase().getDoorLocation(door.getDevice().getID()) != null) {
-                needLocListener = true;
-                break;
-            }
+            if (door != null && door.getDoorStatus() != null && door.getDoorStatus().getStatus() != null)
+                if ((door.getDoorStatus().getStatus().equals(StatusConstants.OPEN) ||
+                        door.getDoorStatus().getStatus().equals(StatusConstants.OPENING) ||
+                        door.getDoorStatus().getStatus().equals(StatusConstants.STOPPED)) &&
+                        App.getDatabase().getDoorLocation(door.getDevice().getID()) != null) {
+                    needLocListener = true;
+                    break;
+                }
         }
         if (needLocListener) {
             startLocationListener();

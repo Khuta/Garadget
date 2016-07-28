@@ -122,9 +122,9 @@ public class AlertModel implements AlertsMVP.ModelOps {
     @Override
     public void setDoor(Door door) {
         mDoor = door;
-        mDoorLocation = mDatabase.getDoorLocation(mDoor.getDevice().getID()); 
-        if (mDoorLocation != null)       
-        setSelectedRadius(mDoorLocation.getRadius());
+        mDoorLocation = mDatabase.getDoorLocation(mDoor.getDevice().getID());
+        if (mDoorLocation != null)
+            setSelectedRadius(mDoorLocation.getRadius());
         mPresenter.fillData(mDoor, mDoorLocation);
         aev = mDoor.getDoorConfig().getStatusAlerts();
     }

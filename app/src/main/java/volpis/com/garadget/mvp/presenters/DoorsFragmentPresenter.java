@@ -30,7 +30,8 @@ public class DoorsFragmentPresenter implements DoorsMVP.RequiredPresenterOps, Do
 
     @Override
     public void setDoors(ArrayList<Door> doors, List<ParticleDevice> devices) {
-        mView.get().setDoors(doors, devices);
+        if (mView != null && mView.get() != null)
+            mView.get().setDoors(doors, devices);
     }
 
     @Override
@@ -48,22 +49,26 @@ public class DoorsFragmentPresenter implements DoorsMVP.RequiredPresenterOps, Do
 
     @Override
     public void showSwipeRefresh(boolean show) {
-        mView.get().showSwipeRefresh(show);
+        if (mView != null && mView.get() != null)
+            mView.get().showSwipeRefresh(show);
     }
 
     @Override
     public void showProgress(boolean show) {
-        mView.get().showProgress(show);
+        if (mView != null && mView.get() != null)
+            mView.get().showProgress(show);
     }
 
     @Override
     public void showToast(String message) {
-        mView.get().showToast(message);
+        if (mView != null && mView.get() != null)
+            mView.get().showToast(message);
     }
 
     @Override
     public void startAnimation(DoorHolder doorHolder, ImageView imageView, boolean isOpening, long openingTime) {
-        mView.get().startAnimation(doorHolder, imageView, isOpening, openingTime);
+        if (mView != null && mView.get() != null)
+            mView.get().startAnimation(doorHolder, imageView, isOpening, openingTime);
     }
 
 

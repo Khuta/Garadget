@@ -28,28 +28,34 @@ public class AlertPresenter implements AlertsMVP.PresenterOps, AlertsMVP.Require
 
     @Override
     public void moveMap(LatLng latLng) {
-        mView.get().moveMap(latLng);
+        if (mView != null && mView.get() != null)
+            mView.get().moveMap(latLng);
     }
 
     @Override
     public void fillData(Door door, DoorLocation doorLocation) {
-        mView.get().fillData(door, doorLocation);
+        if (mView != null && mView.get() != null)
+            mView.get().fillData(door, doorLocation);
     }
 
     @Override
     public void fillRadiusText(int radius) {
-        mView.get().fillRadiusText(radius);
+        if (mView != null && mView.get() != null)
+            mView.get().fillRadiusText(radius);
     }
 
     @Override
     public void showMarkers(String doorName, LatLng doorLatLng, double radius) {
-        mView.get().showMarkers(doorName, doorLatLng, radius);
+        if (mView != null && mView.get() != null)
+            mView.get().showMarkers(doorName, doorLatLng, radius);
     }
 
     @Override
     public void notifyBackend(boolean toggleStatus) {
-        String action = mView.get().getAction(toggleStatus);
-        mModel.notifyBackend(action);
+        if (mView != null && mView.get() != null) {
+            String action = mView.get().getAction(toggleStatus);
+            mModel.notifyBackend(action);
+        }
     }
 
     @Override
@@ -109,12 +115,14 @@ public class AlertPresenter implements AlertsMVP.PresenterOps, AlertsMVP.Require
 
     @Override
     public void onUpdatesSaved(String message) {
-        mView.get().showToast(message);
+        if (mView != null && mView.get() != null)
+            mView.get().showToast(message);
     }
 
     @Override
     public void onError(String errorMsg) {
-        mView.get().showToast(errorMsg);
+        if (mView != null && mView.get() != null)
+            mView.get().showToast(errorMsg);
     }
 
 }

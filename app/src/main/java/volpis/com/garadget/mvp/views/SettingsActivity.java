@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import volpis.com.garadget.App;
@@ -195,7 +196,9 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMVP.R
         long lastContactMillis = System.currentTimeMillis() - door.getDevice().getLastHeard().getTime();
         long lastContactSecs = TimeUnit.MILLISECONDS.toSeconds(lastContactMillis);
         textLastContact.setText(lastContactSecs + " sec ago");
-        editDeviceName.setText(mDoor.getName().replace("_", " "));
+        String doorName = mDoor.getName();
+        if (doorName != null)
+            editDeviceName.setText(mDoor.getName().replace("_", " "));
 
         if (doorConfig != null) {
 
@@ -408,7 +411,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMVP.R
 
     private void initSpinnersFirstTimeValue(Door door) {
         spinnersFirstTime = 0;
-        if (mDoor != null) {
+        if (mDoor != null && door.getDoorConfig() != null) {
             if (door.getDoorConfig().getSensorScanInterval() != (int) ((Map.Entry) mScanPeriodsSpinner.getSelectedItem()).getValue())
                 spinnersFirstTime++;
             if (door.getDoorConfig().getSensorReadsAmount() != Integer.parseInt((String) mSensorReadsSpinner.getSelectedItem()))

@@ -81,65 +81,67 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
     }
 
     public void setDoors(final ArrayList<Door> doors, final List<ParticleDevice> devices) {
-        linearDoors.removeAllViews();
-        linearSelectedDoor.removeAllViews();
+        if (getActivity() != null) {
+            linearDoors.removeAllViews();
+            linearSelectedDoor.removeAllViews();
 
-        if (mDoorHolders.size() == 0) {
-            for (final Door door : doors) {
-                final View view = mLayoutInflater.inflate(R.layout.item_door, null);
-                DoorHolder doorHolder = initDoorView(view, door);
-                mDoorHolders.add(doorHolder);
+            if (mDoorHolders.size() == 0) {
+                for (final Door door : doors) {
+                    final View view = mLayoutInflater.inflate(R.layout.item_door, null);
+                    DoorHolder doorHolder = initDoorView(view, door);
+                    mDoorHolders.add(doorHolder);
+                }
             }
-        }
 
-        for (final DoorHolder doorHolder : mDoorHolders) {
-            final View view = doorHolder.getView();
+            for (final DoorHolder doorHolder : mDoorHolders) {
+                final View view = doorHolder.getView();
 
-            if (mDoorHolders.indexOf(doorHolder) != mSelectedDoorPosition) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getScreenWidth() / 6, getScreenWidth() / 6);
-                        params.gravity = Gravity.CENTER;
-                        doorHolder.customProgressBar.setLayoutParams(params);
-                        doorHolder.customProgressBar.setProgressWidth(5);
-                        doorHolder.customProgressBar.setOuterWidth(2);
-                    }
-                });
-                view.setPadding(Utils.getPixelsFromDp(getActivity(), 4), 0, Utils.getPixelsFromDp(getActivity(), 4), 0);
-                linearDoors.addView(view);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSelectedDoorPosition = mDoorHolders.indexOf(doorHolder);
-                        setDoors(((MainActivity) getActivity()).getDoors(), devices);
-                    }
-                });
-            } else {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getScreenWidth() / 3, getScreenWidth() / 3);
-                        params.gravity = Gravity.CENTER;
-                        doorHolder.customProgressBar.setLayoutParams(params);
-                        doorHolder.customProgressBar.setProgressWidth(12);
-                        doorHolder.customProgressBar.setOuterWidth(15);
-                    }
-                });
-                view.setPadding(Utils.getPixelsFromDp(getActivity(), 55), 0, Utils.getPixelsFromDp(getActivity(), 55), 0);
-                linearSelectedDoor.addView(view);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (doorHolder.getDoor().getDoorConfig() != null)
-                            if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
-                                String status = doorHolder.getDoor().getDoorStatus().getStatus();
-                                startAnimation(doorHolder, (ImageView) v.findViewById(R.id.image_door), !status.equals(StatusConstants.OPEN), doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
-                                doorHolder.setStatusChangeTime(System.currentTimeMillis());
-                                mPresenter.changeDoorStatus(devices.get(mSelectedDoorPosition), doorHolder, status.equals(StatusConstants.OPEN) ? StatusConstants.CLOSED : StatusConstants.OPEN);
-                            }
-                    }
-                });
+                if (mDoorHolders.indexOf(doorHolder) != mSelectedDoorPosition) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getScreenWidth() / 6, getScreenWidth() / 6);
+                            params.gravity = Gravity.CENTER;
+                            doorHolder.customProgressBar.setLayoutParams(params);
+                            doorHolder.customProgressBar.setProgressWidth(5);
+                            doorHolder.customProgressBar.setOuterWidth(2);
+                        }
+                    });
+                    view.setPadding(Utils.getPixelsFromDp(getActivity(), 4), 0, Utils.getPixelsFromDp(getActivity(), 4), 0);
+                    linearDoors.addView(view);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mSelectedDoorPosition = mDoorHolders.indexOf(doorHolder);
+                            setDoors(((MainActivity) getActivity()).getDoors(), devices);
+                        }
+                    });
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(getScreenWidth() / 3, getScreenWidth() / 3);
+                            params.gravity = Gravity.CENTER;
+                            doorHolder.customProgressBar.setLayoutParams(params);
+                            doorHolder.customProgressBar.setProgressWidth(12);
+                            doorHolder.customProgressBar.setOuterWidth(15);
+                        }
+                    });
+                    view.setPadding(Utils.getPixelsFromDp(getActivity(), 55), 0, Utils.getPixelsFromDp(getActivity(), 55), 0);
+                    linearSelectedDoor.addView(view);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null )
+                                if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
+                                    String status = doorHolder.getDoor().getDoorStatus().getStatus();
+                                    startAnimation(doorHolder, (ImageView) v.findViewById(R.id.image_door), !status.equals(StatusConstants.OPEN), doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                    doorHolder.setStatusChangeTime(System.currentTimeMillis());
+                                    mPresenter.changeDoorStatus(devices.get(mSelectedDoorPosition), doorHolder, status.equals(StatusConstants.OPEN) ? StatusConstants.CLOSED : StatusConstants.OPEN);
+                                }
+                        }
+                    });
+                }
             }
         }
     }
@@ -167,40 +169,43 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
 
     public void startAnimation(final DoorHolder doorHolder, final ImageView imageView, boolean isOpening, long openingTime) {
 
-        final Resources resources = getResources();
+        if (isAdded()) {
+            final String animationImages[] = getResources().getStringArray(R.array.animation_images);
+            final ArrayList<String> sortedAnimationImages = new ArrayList<>();
+            if (isOpening)
+                Collections.addAll(sortedAnimationImages, animationImages);
+            else
+                for (int i = animationImages.length - 1; i >= 0; i--) {
+                    sortedAnimationImages.add(animationImages[i]);
+                }
 
-        final String animationImages[] = resources.getStringArray(R.array.animation_images);
-        final ArrayList<String> sortedAnimationImages = new ArrayList<>();
-        if (isOpening)
-            Collections.addAll(sortedAnimationImages, animationImages);
-        else
-            for (int i = animationImages.length - 1; i >= 0; i--) {
-                sortedAnimationImages.add(animationImages[i]);
-            }
+            final int frameDuration = (int) (openingTime / animationImages.length);
 
-        final int frameDuration = (int) (openingTime / animationImages.length);
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                doorHolder.customProgressBar.setMillis(doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
-                final int[] currentFrame = {0};
-                final Handler handlerAnim = new Handler();
-                final Runnable runnableAnim = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (currentFrame[0] < sortedAnimationImages.size()) {
-                            final int resourceId = getResources().getIdentifier(sortedAnimationImages.get(currentFrame[0]), "drawable", getActivity().getPackageName());
-                            imageView.setImageDrawable(getResources().getDrawable(resourceId));
-                            currentFrame[0]++;
-                            handlerAnim.postDelayed(this, frameDuration);
-                        }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (doorHolder != null && doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null) {
+                        doorHolder.customProgressBar.setMillis(doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                        final int[] currentFrame = {0};
+                        final Handler handlerAnim = new Handler();
+                        final Runnable runnableAnim = new Runnable() {
+                            @Override
+                            public void run() {
+                                if (currentFrame[0] < sortedAnimationImages.size()) {
+                                    if (isAdded()) {
+                                        final int resourceId = getResources().getIdentifier(sortedAnimationImages.get(currentFrame[0]), "drawable", getActivity().getPackageName());
+                                        imageView.setImageDrawable(getResources().getDrawable(resourceId));
+                                        currentFrame[0]++;
+                                        handlerAnim.postDelayed(this, frameDuration);
+                                    }
+                                }
+                            }
+                        };
+                        handlerAnim.post(runnableAnim);
                     }
-                };
-                handlerAnim.post(runnableAnim);
-            }
-        });
-
+                }
+            });
+        }
     }
 
 
