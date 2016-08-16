@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,22 +85,27 @@ public class AlertModel implements AlertsMVP.ModelOps {
 
     @Override
     public void notifyBackend(String action) {
-        String doorId = mDoor.getDevice().getID();
-        PushNotificationSignUp request = new PushNotificationSignUp(mContext, doorId, action, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                if (mContext != null)
-                    mPresenter.onUpdatesSaved(mContext.getString(R.string.alerts_updated));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("onErrorResponse", error.toString());
-                if (mContext != null)
-                    mPresenter.onError(mContext.getString(R.string.error_sending_command));
-            }
-        });
-        mRequestQueue.add(request);
+        Log.d("response", "notifyBAckend");
+        if (action != null) {
+            String doorId = mDoor.getDevice().getID();
+            PushNotificationSignUp request = new PushNotificationSignUp(mContext, doorId, action, ParticleCloudSDK.getCloud().getAccessToken(), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("onResponse", response.toString());
+
+                    if (mContext != null)
+                        mPresenter.onUpdatesSaved(mContext.getString(R.string.alerts_updated));
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("onResponse", error.toString());
+                    if (mContext != null)
+                        mPresenter.onError(mContext.getString(R.string.error_sending_command));
+                }
+            });
+            mRequestQueue.add(request);
+        }
     }
 
     @Override

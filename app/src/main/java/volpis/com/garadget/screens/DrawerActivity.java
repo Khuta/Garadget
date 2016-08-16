@@ -12,6 +12,11 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,12 +27,15 @@ import io.particle.android.sdk.utils.Async;
 import io.particle.android.sdk.utils.Toaster;
 import volpis.com.garadget.R;
 import volpis.com.garadget.adapters.DrawerAdapter;
+import volpis.com.garadget.interfaces.OnLogoutListener;
+import volpis.com.garadget.utils.SharedPreferencesUtils;
 
 public abstract class DrawerActivity extends AppCompatActivity {
     public DrawerLayout myDrawerLayout;
     public ListView myDrawerList;
     ArrayList<String> navigations = new ArrayList<>();
     DrawerAdapter mAdapter;
+    OnLogoutListener onLogoutListener;
 
     private Toolbar mToolbar;
 
@@ -84,29 +92,39 @@ public abstract class DrawerActivity extends AppCompatActivity {
         myDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
-    private void logOut(){
-                Async.executeAsync(ParticleCloud.get(DrawerActivity.this), new Async.ApiWork<ParticleCloud, Object>() {
-                    @Override
-                    public Object callApi(ParticleCloud sparkCloud) throws ParticleCloudException, IOException {
-                        ParticleCloudSDK.getCloud().logOut();
-                        return -1;
+    private void logOut() {
+        if (onLogoutListener != null)
+            onLogoutListener.onLogout();
 
-                    }
+        Async.executeAsync(ParticleCloud.get(DrawerActivity.this), new Async.ApiWork<ParticleCloud, Object>() {
+            @Override
+            public Object callApi(ParticleCloud sparkCloud) throws ParticleCloudException, IOException {
+                ParticleCloudSDK.getCloud().logOut();
+                return -1;
 
-                    @Override
-                    public void onSuccess(Object value) {
-                        Toaster.l(DrawerActivity.this, "Logged out");
-                        Intent intent = new Intent(DrawerActivity.this, SplashActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
+            }
 
-                    @Override
-                    public void onFailure(ParticleCloudException e) {
-                        Toaster.l(DrawerActivity.this, e.getBestMessage());
-                        e.printStackTrace();
-                        Log.d("onFailure", e.getBestMessage());
-                    }
-                });
+            @Override
+            public void onSuccess(Object value) {
+                SharedPreferencesUtils.getInstance().setSubscribedToEvents(false);
+                Toaster.l(DrawerActivity.this, "Logged out");
+                Intent intent = new Intent(DrawerActivity.this, SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(ParticleCloudException e) {
+                Toaster.l(DrawerActivity.this, e.getBestMessage());
+                e.printStackTrace();
+                Log.d("onFailure", e.getBestMessage());
+            }
+        });
+
+
+    }
+
+    public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
+        this.onLogoutListener = onLogoutListener;
     }
 }

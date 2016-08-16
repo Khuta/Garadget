@@ -74,7 +74,7 @@ public class Utils {
         return ((hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + " " + (isAm ? "AM" : "PM"));
     }
 
-    public static Drawable getSignalStrengthDrawable(Context context, Integer dB) {
+    public static int getSignalStrengthDrawable(Context context, Integer dB) {
         int imageResource;
         if (dB == null)
             imageResource = R.drawable.ic_signal_01;
@@ -89,10 +89,10 @@ public class Utils {
         else
             imageResource = R.drawable.ic_signal_06;
         if (context != null)
-            return context.getResources().getDrawable(imageResource);
+            return imageResource;
         else {
             Log.d("myLogs", "getSignalStrengthDrawable NULL");
-            return null;
+            return -1;
         }
     }
 

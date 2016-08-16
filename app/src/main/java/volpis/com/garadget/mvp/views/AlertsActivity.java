@@ -61,10 +61,9 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
 
     private static final int DEFAULT_TIME_FROM = 1320;
     private static final int DEFAULT_TIME_TO = 360;
-    private static final int NUMBER_OF_SPINNERS = 3;
 
     private AlertPresenter mPresenter;
-    private int spinnersFirstTime = NUMBER_OF_SPINNERS;
+    private boolean locationSpinnerFirstTime = true, timezoneSpinnerFirstTime = true, timeoutSpinnerFirstTime = true;
     private Polyline mPolyline;
     private Circle mCircle;
     private PrimaryTouchMapFragment mMapFragment;
@@ -134,6 +133,7 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
         setContentView(R.layout.activity_alerts);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        showProgressBar(true);
         initValues();
         fillArrays();
         setOnClickListeners();
@@ -178,12 +178,12 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
         mSpinnerRadiuses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (spinnersFirstTime <= 0) {
+                if (!locationSpinnerFirstTime) {
                     int radius = (int) ((Map.Entry) mSpinnerRadiuses.getSelectedItem()).getValue();
                     mPresenter.radiusSelected(radius);
                     switchLocation.setChecked(true);
                 }
-                spinnersFirstTime--;
+                locationSpinnerFirstTime = false;
             }
 
             @Override
@@ -194,11 +194,11 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
         mTimezonesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (spinnersFirstTime <= 0) {
+                if (!timezoneSpinnerFirstTime) {
                     Object value = ((Map.Entry) adapterView.getSelectedItem()).getValue();
                     mPresenter.updateConfig("tzo=" + value);
                 }
-                spinnersFirstTime--;
+                timezoneSpinnerFirstTime = false;
             }
 
             @Override
@@ -210,7 +210,7 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
         mTimeOutTimesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (spinnersFirstTime <= 0) {
+                if (!timeoutSpinnerFirstTime) {
                     if (i == 0) {
                         switchTimeout.setChecked(false);
                         mLayoutTimeoutTimes.setVisibility(View.GONE);
@@ -218,7 +218,7 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
                     Object value = ((Map.Entry) adapterView.getSelectedItem()).getValue();
                     mPresenter.updateConfig("aot=" + value);
                 }
-                spinnersFirstTime--;
+                timeoutSpinnerFirstTime = false;
             }
 
             @Override
@@ -468,8 +468,11 @@ public class AlertsActivity extends AppCompatActivity implements AlertsMVP.Requi
             switchLocation.setChecked(false);
 
         if (doorLocation != null) {
-            mSpinnerRadiuses.setSelection(SettingsActivity.getIndexByValue(radiuses, doorLocation.getRadius()));
-            fillRadiusText(doorLocation.getRadius());
+            int radius = SettingsActivity.getIndexByValue(radiuses, doorLocation.getRadius());
+            if (radius != -1) {
+                mSpinnerRadiuses.setSelection(radius);
+                fillRadiusText(doorLocation.getRadius());
+            }
         }
 
         DisplayMetrics metrics = new DisplayMetrics();

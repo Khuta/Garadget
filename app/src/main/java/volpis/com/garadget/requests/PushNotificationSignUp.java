@@ -12,6 +12,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.JsonSyntaxException;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,25 +22,27 @@ import volpis.com.garadget.R;
 import volpis.com.garadget.utils.SharedPreferencesUtils;
 
 
-public class PushNotificationSignUp extends Request<JSONArray> {
+public class PushNotificationSignUp extends Request<JSONObject> {
     private String mAction;
     private String mDeviceId;
-    private final Response.Listener<JSONArray> listener;
+    private String mAuthToken;
+    private final Response.Listener<JSONObject> listener;
 
-    public PushNotificationSignUp(Context context, String deviceid, String action, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    public PushNotificationSignUp(Context context, String deviceid, String action, String authToken, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(Method.POST, context.getString(R.string.push_url), errorListener);
         mAction = action;
         this.listener = listener;
         this.mDeviceId = deviceid;
+        this.mAuthToken = authToken;
     }
 
     @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            JSONArray jsonObject = new JSONArray(json);
+            JSONObject jsonObject = new JSONObject(json);
             return Response.success(jsonObject,
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
@@ -51,7 +55,7 @@ public class PushNotificationSignUp extends Request<JSONArray> {
     }
 
     @Override
-    protected void deliverResponse(JSONArray jsonObject) {
+    protected void deliverResponse(JSONObject jsonObject) {
         listener.onResponse(jsonObject);
     }
 
@@ -62,7 +66,7 @@ public class PushNotificationSignUp extends Request<JSONArray> {
         params.put("platform", "gcm");
         params.put("subscriber", SharedPreferencesUtils.getInstance().getRegistrationToken());
         params.put("device", mDeviceId);
-        params.put("authtoken", ParticleCloudSDK.getCloud().getAccessToken());
+        params.put("authtoken", mAuthToken);
         return params;
     }
 

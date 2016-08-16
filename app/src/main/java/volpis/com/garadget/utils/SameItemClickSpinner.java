@@ -35,7 +35,7 @@ public class SameItemClickSpinner extends Spinner {
         super.setSelection(position);
         if (sameSelected) {
             // Spinner does not call the OnItemSelectedListener if the same item is selected, so do it manually now
-            if (getOnItemSelectedListener() != null)
+            if (getOnItemSelectedListener() != null && getSelectedView() != null)
                 getOnItemSelectedListener().onItemSelected(this, getSelectedView(), position, getSelectedItemId());
         }
     }

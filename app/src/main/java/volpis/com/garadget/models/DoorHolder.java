@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import volpis.com.garadget.R;
@@ -44,14 +46,18 @@ public class DoorHolder {
         if (door.getDevice().isConnected()) {
             if (doorStatus != null && doorStatus.getStatus()!=null) {
                 textStatus.setText(doorStatus.getStatus() + " " + doorStatus.getTime());
-                imageDoor.setImageResource(doorStatus.getStatus().equals(StatusConstants.OPEN) ? R.drawable.ic_anim_garage_15 : R.drawable.ic_anim_garage_01);
-                imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, door.getDoorStatus().getSignalStrength()));
+                Picasso.with(context).load(doorStatus.getStatus().equals(StatusConstants.OPEN) ? R.drawable.ic_anim_garage_15 : R.drawable.ic_anim_garage_01).into(imageDoor);
+                Picasso.with(context).load(Utils.getSignalStrengthDrawable(context, door.getDoorStatus().getSignalStrength())).into(imageSignal);
+             //   imageDoor.setImageResource(doorStatus.getStatus().equals(StatusConstants.OPEN) ? R.drawable.ic_anim_garage_15 : R.drawable.ic_anim_garage_01);
+             //   imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, door.getDoorStatus().getSignalStrength()));
             }
         } else {
             long lastContactMillis = System.currentTimeMillis() - door.getDevice().getLastHeard().getTime();
             if (context != null)
                 textStatus.setText(context.getString(R.string.offline) + " " + Utils.toFormattedTime(lastContactMillis));
-            imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, null));
+           // imageSignal.setImageDrawable(Utils.getSignalStrengthDrawable(context, null));
+            Picasso.with(context).load(Utils.getSignalStrengthDrawable(context, null)).into(imageSignal);
+
         }
     }
 

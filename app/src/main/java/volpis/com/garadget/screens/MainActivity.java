@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,6 +47,7 @@ import io.particle.android.sdk.devicesetup.ParticleDeviceSetupLibrary;
 import volpis.com.garadget.App;
 import volpis.com.garadget.R;
 import volpis.com.garadget.adapters.BottomPanelAdapter;
+import volpis.com.garadget.interfaces.OnLogoutListener;
 import volpis.com.garadget.models.BottomPanelItem;
 import volpis.com.garadget.models.Door;
 import volpis.com.garadget.models.DoorConfig;
@@ -52,6 +55,8 @@ import volpis.com.garadget.models.DoorLocation;
 import volpis.com.garadget.mvp.views.AlertsActivity;
 import volpis.com.garadget.mvp.views.DoorsFragment;
 import volpis.com.garadget.mvp.views.SettingsActivity;
+import volpis.com.garadget.requests.PushNotificationSignUp;
+import volpis.com.garadget.utils.FunctionConstants;
 import volpis.com.garadget.utils.SharedPreferencesUtils;
 import volpis.com.garadget.utils.StatusConstants;
 
@@ -95,21 +100,27 @@ public class MainActivity extends DrawerActivity {
         textTitle.setText(getString(R.string.title_main_activity));
         initTabs();
         imageDrawer.setImageResource(R.drawable.ic_tab_settings);
-        doors = (ArrayList<Door>) getIntent().getSerializableExtra("doors");
+        //    doors = (ArrayList<Door>) getIntent().getSerializableExtra("doors");
         doorsFragment = new DoorsFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         frameContent.removeAllViews();
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentManager.beginTransaction().replace(R.id.frame_content, doorsFragment).commit();
-        setOnClickListeners();
+        setListeners();
         createAndSendDeviceToken(this);
     }
 
-    private void setOnClickListeners() {
+    private void setListeners() {
         imageDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myDrawerLayout.openDrawer(myDrawerList);
+            }
+        });
+        setOnLogoutListener(new OnLogoutListener() {
+            @Override
+            public void onLogout() {
+                removeSubscriptions();
             }
         });
     }
@@ -391,6 +402,32 @@ public class MainActivity extends DrawerActivity {
             return super.parseNetworkError(volleyError);
         }
 
+    }
+
+    private void removeSubscriptions() {
+        String authToken = ParticleCloudSDK.getCloud().getAccessToken();
+//        StringBuilder stringBuilder = new StringBuilder();
+//        for (Door door : doors) {
+//            int index = doors.indexOf(door);
+//            String doorId = door.getDevice().getID();
+//            stringBuilder.append(doorId);
+//            if (index != doors.size() - 1)
+//                stringBuilder.append(",");
+//        }
+
+        PushNotificationSignUp request = new PushNotificationSignUp(MainActivity.this, "", FunctionConstants.FUNCTION_REMOVE, authToken, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("removeSub success", "success");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("onErrorResponse", error.toString());
+
+            }
+        });
+        Volley.newRequestQueue(this).add(request);
     }
 
 }
