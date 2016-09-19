@@ -56,9 +56,13 @@ import volpis.com.garadget.mvp.views.AlertsActivity;
 import volpis.com.garadget.mvp.views.DoorsFragment;
 import volpis.com.garadget.mvp.views.SettingsActivity;
 import volpis.com.garadget.requests.PushNotificationSignUp;
+import volpis.com.garadget.services.DataLayerListenerService;
+import volpis.com.garadget.services.EventSubscriberService;
 import volpis.com.garadget.utils.FunctionConstants;
 import volpis.com.garadget.utils.SharedPreferencesUtils;
-import volpis.com.garadget.utils.StatusConstants;
+import volpis.com.garadget.utils.Utils;
+
+import com.example.globalclasses.StatusConstants;
 
 public class MainActivity extends DrawerActivity {
 
@@ -108,6 +112,7 @@ public class MainActivity extends DrawerActivity {
         fragmentManager.beginTransaction().replace(R.id.frame_content, doorsFragment).commit();
         setListeners();
         createAndSendDeviceToken(this);
+        DataLayerListenerService.sendIsLoggedStatus(false);
     }
 
     private void setListeners() {
@@ -120,6 +125,7 @@ public class MainActivity extends DrawerActivity {
         setOnLogoutListener(new OnLogoutListener() {
             @Override
             public void onLogout() {
+                //    stopService(new Intent(MainActivity.this, EventSubscriberService.class));
                 removeSubscriptions();
             }
         });
@@ -193,6 +199,12 @@ public class MainActivity extends DrawerActivity {
 
     public void setDoors(ArrayList<Door> doors) {
         this.doors = doors;
+        DataLayerListenerService.setDoors(doors);
+        if (!Utils.isServiceRunning(MainActivity.this, EventSubscriberService.class) || EventSubscriberService.getDoors() == null) {
+            Intent serviceIntent = new Intent(MainActivity.this, EventSubscriberService.class);
+            serviceIntent.putExtra("doors", doors);
+            startService(serviceIntent);
+        }
         /*
         We'll use this ids for subscribing to push notification
          */
@@ -304,10 +316,11 @@ public class MainActivity extends DrawerActivity {
             NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setSmallIcon(R.drawable.notification_icon)
                             .setContentTitle(door.getName())
                             .setStyle(new NotificationCompat.BigTextStyle()
                                     .bigText(door.getDoorStatus().getStatus()))
+                            .setLocalOnly(true)
                             .setContentText(door.getDoorStatus().getStatus());
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
         }
@@ -430,4 +443,7 @@ public class MainActivity extends DrawerActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
+    public DoorsFragment getDoorsFragment() {
+        return doorsFragment;
+    }
 }

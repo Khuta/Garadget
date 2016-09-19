@@ -7,7 +7,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_main_activity">Doors</string>
 
-    <string name="project_id">123457890</string>
+    <string name="project_id">1234567890</string>
 
     <string name="title_device">Device</string>
     <string name="title_wifi_radio">WiFi Radio</string>
@@ -65,9 +65,11 @@
     <string name="help_page_url">http://community.garadget.com/?ref=webapp&amp;page=alerts</string>
     <string name="oauth_client_id">Write your client id here</string>
     <string name="oauth_client_secret">Write your client secret</string>
-   <string name="organization_name">NAME</string>
-    <string name="organization_slug">SLUG</string>
-    <string name="product_slug">PR_SLUG</string>
+    <bool name="organization">true</bool>
+    <string name="organization_name">Softcomplex, Inc</string>
+    <string name="organization_slug">softcomplex-inc</string>
+    <string name="product_slug">garadget-v13</string>
+
     <string name="error_sending_command">There was an error sending the command. Please try again.</string>
     <string name="alerts_updated">Successfully updated Event Alerts</string>
     <string name="meters">meters</string>

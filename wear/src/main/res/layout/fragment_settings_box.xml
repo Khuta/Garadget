@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_box="all">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/layout_settings_device"
+                    layout="@layout/layout_settings_device" />
+
+                <include
+                    android:id="@+id/layout_settings_wifi"
+                    layout="@layout/layout_settings_wifi" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="large_text">18sp</dimen>
+    <dimen name="normal_text">14sp</dimen>
+    <dimen name="small_text">12sp</dimen>
+
+    <dimen name="header_height">36dp</dimen>
+    <dimen name="item_height">42dp</dimen>
+    <dimen name="layout_horizontal_paddings">20dp</dimen>
+
+    <dimen name="dots_size">7dp</dimen>
+    <dimen name="divider_height">2px</dimen>
+
+</resources>

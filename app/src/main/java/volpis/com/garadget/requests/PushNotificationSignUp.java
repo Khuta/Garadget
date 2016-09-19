@@ -10,14 +10,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.JsonSyntaxException;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-import io.particle.android.sdk.cloud.ParticleCloudSDK;
+
 import volpis.com.garadget.R;
 import volpis.com.garadget.utils.SharedPreferencesUtils;
 
@@ -67,6 +67,7 @@ public class PushNotificationSignUp extends Request<JSONObject> {
         params.put("subscriber", SharedPreferencesUtils.getInstance().getRegistrationToken());
         params.put("device", mDeviceId);
         params.put("authtoken", mAuthToken);
+        Log.d("params", params.toString());
         return params;
     }
 

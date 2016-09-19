@@ -29,7 +29,7 @@
             android:adjustViewBounds="true"
             android:src="@drawable/ic_signal_04" />
 
-        <volpis.com.garadget.views.CustomProgressBar
+        <com.example.globalclasses.CustomProgressBar
             android:id="@+id/progress_door"
             android:layout_width="100dp"
             android:layout_height="100dp"

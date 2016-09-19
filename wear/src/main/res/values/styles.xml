@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextViewTitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/normal_text</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextViewHeaderStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@color/header_background</item>
+        <item name="android:height">@dimen/header_height</item>
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">@dimen/layout_horizontal_paddings</item>
+        <item name="android:paddingRight">@dimen/layout_horizontal_paddings</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="SettingsItemStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">@dimen/layout_horizontal_paddings</item>
+        <item name="android:paddingRight">@dimen/layout_horizontal_paddings</item>
+    </style>
+
+    <style name="TextViewDescriptionStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">right|center_vertical</item>
+    </style>
+
+</resources>

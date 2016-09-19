@@ -1,6 +1,5 @@
 package volpis.com.garadget.mvp.views;
 
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,7 +28,10 @@ import volpis.com.garadget.interfaces.DoorsMVP;
 import volpis.com.garadget.models.Door;
 import volpis.com.garadget.models.DoorHolder;
 import volpis.com.garadget.mvp.presenters.DoorsFragmentPresenter;
-import volpis.com.garadget.utils.StatusConstants;
+import volpis.com.garadget.services.DataLayerListenerService;
+
+import com.example.globalclasses.StatusConstants;
+
 import volpis.com.garadget.utils.Utils;
 import volpis.com.garadget.screens.MainActivity;
 
@@ -132,10 +134,11 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null )
+                            if (doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null)
                                 if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
                                     String status = doorHolder.getDoor().getDoorStatus().getStatus();
                                     startAnimation(doorHolder, (ImageView) v.findViewById(R.id.image_door), !status.equals(StatusConstants.OPEN), doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                    DataLayerListenerService.sendDoorStatusToWear(doorHolder.getDoor());
                                     doorHolder.setStatusChangeTime(System.currentTimeMillis());
                                     mPresenter.changeDoorStatus(devices.get(mSelectedDoorPosition), doorHolder, status.equals(StatusConstants.OPEN) ? StatusConstants.CLOSED : StatusConstants.OPEN);
                                 }
@@ -167,8 +170,19 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
         return doorHolder;
     }
 
-    public void startAnimation(final DoorHolder doorHolder, final ImageView imageView, boolean isOpening, long openingTime) {
+    public void startAnimation(String deviceId, String newStatus) {
+        for (DoorHolder doorHolder : mDoorHolders) {
+            Door door = doorHolder.getDoor();
+            if (door.getDevice().getID().equals(deviceId)) {
+                doorHolder.getDoor().getDoorStatus().setStatus(door.getDoorStatus().getStatus());
+                doorHolder.setStatusChangeTime(System.currentTimeMillis());
+                ((MainActivity) getActivity()).checkLocationListenerStart();
+                startAnimation(doorHolder, doorHolder.imageDoor, newStatus.equals(StatusConstants.OPEN), door.getDoorConfig().getDoorMovingTime());
+            }
+        }
+    }
 
+    public void startAnimation(final DoorHolder doorHolder, final ImageView imageView, boolean isOpening, long openingTime) {
         if (isAdded()) {
             final String animationImages[] = getResources().getStringArray(R.array.animation_images);
             final ArrayList<String> sortedAnimationImages = new ArrayList<>();
@@ -196,12 +210,14 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
                                         final int resourceId = getResources().getIdentifier(sortedAnimationImages.get(currentFrame[0]), "drawable", getActivity().getPackageName());
                                         imageView.setImageDrawable(getResources().getDrawable(resourceId));
                                         currentFrame[0]++;
-                                        handlerAnim.postDelayed(this, frameDuration);
+                                        if (doorHolder.shouldRun)
+                                            handlerAnim.postDelayed(this, frameDuration);
                                     }
                                 }
                             }
                         };
-                        handlerAnim.post(runnableAnim);
+                        doorHolder.startAnim(handlerAnim, runnableAnim);
+                        //handlerAnim.post(runnableAnim);
                     }
                 }
             });

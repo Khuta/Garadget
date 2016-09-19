@@ -3,15 +3,18 @@ package volpis.com.garadget;
 import android.app.Activity;
 import android.app.Application;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import io.fabric.sdk.android.Fabric;
 import io.particle.android.sdk.devicesetup.ParticleDeviceSetupLibrary;
 import volpis.com.garadget.database.Database;
 import volpis.com.garadget.screens.MainActivity;
 
 public class App extends Application {
-
+    private static GoogleApiClient mGoogleApiClient;
     private static App sInstance;
     private static Database mDatabase;
     private Activity mCurrentActivity = null;
@@ -22,6 +25,7 @@ public class App extends Application {
         sInstance = this;
         mDatabase = Database.getInstance(getApplicationContext());
         super.onCreate();
+        Log.d("serviceTest", "App onCreate");
         Fabric.with(this, new Crashlytics());
     }
 
@@ -56,5 +60,12 @@ public class App extends Application {
         this.mCurrentActivity = mCurrentActivity;
     }
 
+    public static GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
+    }
+
+    public static void setGoogleApiClient(GoogleApiClient googleApiClient) {
+        mGoogleApiClient = googleApiClient;
+    }
 
 }

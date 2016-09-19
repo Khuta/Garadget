@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_box="all"
+        android:id="@+id/scrollView"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/view_divider" />
+
+            <TextView
+                style="@style/TextViewHeaderStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/event_alerts" />
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reboot"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_reboot"/>
+
+                />
+
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/online"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_online"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_open"/>
+
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/closed"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_closed"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                android:id="@+id/linear_firmware_version"
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stopped"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_stopped"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+            <LinearLayout
+                android:id="@+id/sdv"
+                style="@style/SettingsItemStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TextViewTitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offline_alerts"
+                    android:layout_weight="1"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:id="@+id/switch_offline"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/view_divider" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

@@ -30,8 +30,9 @@ import volpis.com.garadget.models.DoorHolder;
 import volpis.com.garadget.models.DoorStatus;
 import volpis.com.garadget.models.NetConfig;
 import volpis.com.garadget.parser.GaradgetParser;
+import volpis.com.garadget.services.DataLayerListenerService;
 import volpis.com.garadget.utils.EventsConstants;
-import volpis.com.garadget.utils.StatusConstants;
+import com.example.globalclasses.StatusConstants;
 import volpis.com.garadget.utils.Utils;
 import volpis.com.garadget.mvp.views.AlertsActivity;
 import volpis.com.garadget.interfaces.DoorsMVP;
@@ -53,6 +54,7 @@ public class DoorModel implements DoorsMVP.ModelOps {
 
     @Override
     public void changeDoorStatus(final ParticleDevice device, final DoorHolder doorHolder, final String newStatus) {
+
         Async.executeAsync(ParticleCloud.get(mContext), new Async.ApiWork<ParticleCloud, Object>() {
             @Override
             public Object callApi(ParticleCloud sparkCloud) throws ParticleCloudException, IOException {
@@ -192,7 +194,10 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                                         } else if (currentActivity instanceof SettingsActivity) {
                                                             ((SettingsActivity) currentActivity).setDoor(doorHolder.getDoor());
                                                         }
-
+                                                        ArrayList<Door> doors = new ArrayList<Door>();
+                                                        for (DoorHolder doorHolderI : doorHolders)
+                                                            doors.add(doorHolderI.getDoor());
+                                                        DataLayerListenerService.sendDoorDataToWear(doorHolder.getDoor());
                                                     }
                                                 });
                                                 break;
@@ -201,15 +206,19 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                         if (doorHolder != null && doorHolder.getDoor() != null && doorHolder.getDoor().getDoorConfig() != null)
                                             switch (particleEvent.dataPayload) {
                                                 case StatusConstants.OPENING:
-                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
+                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
                                                         mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), true, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                                        DataLayerListenerService.sendDoorStatusToWear(doorHolder.getDoor());
+                                                    }
                                                     doorHolder.setStatusChangeTime(System.currentTimeMillis());
                                                     doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.OPEN);
                                                     ((MainActivity) mContext).checkLocationListenerStart();
                                                     break;
                                                 case StatusConstants.CLOSING:
-                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis())
+                                                    if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
                                                         mPresenter.startAnimation(doorHolder, (ImageView) doorHolder.getView().findViewById(R.id.image_door), false, doorHolder.getDoor().getDoorConfig().getDoorMovingTime());
+                                                        DataLayerListenerService.sendDoorStatusToWear(doorHolder.getDoor());
+                                                    }
                                                     doorHolder.setStatusChangeTime(System.currentTimeMillis());
                                                     doorHolder.getDoor().getDoorStatus().setStatus(StatusConstants.CLOSED);
                                                     ((MainActivity) mContext).checkLocationListenerStart();

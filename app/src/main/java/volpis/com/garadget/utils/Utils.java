@@ -2,7 +2,6 @@ package volpis.com.garadget.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;

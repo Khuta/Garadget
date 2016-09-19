@@ -12,11 +12,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
-import org.json.JSONArray;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -28,6 +23,7 @@ import io.particle.android.sdk.utils.Toaster;
 import volpis.com.garadget.R;
 import volpis.com.garadget.adapters.DrawerAdapter;
 import volpis.com.garadget.interfaces.OnLogoutListener;
+import volpis.com.garadget.services.DataLayerListenerService;
 import volpis.com.garadget.utils.SharedPreferencesUtils;
 
 public abstract class DrawerActivity extends AppCompatActivity {
@@ -36,8 +32,6 @@ public abstract class DrawerActivity extends AppCompatActivity {
     ArrayList<String> navigations = new ArrayList<>();
     DrawerAdapter mAdapter;
     OnLogoutListener onLogoutListener;
-
-    private Toolbar mToolbar;
 
     protected abstract int getLayoutId();
 
@@ -51,7 +45,7 @@ public abstract class DrawerActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         setTitle("");
         myDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -111,6 +105,7 @@ public abstract class DrawerActivity extends AppCompatActivity {
                 Intent intent = new Intent(DrawerActivity.this, SplashActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                DataLayerListenerService.sendIsLoggedStatus(false);
             }
 
             @Override

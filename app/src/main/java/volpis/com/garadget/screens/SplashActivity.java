@@ -15,6 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+      //  startService(new Intent(SplashActivity.this, DataLayerListenerService.class));
         if (ParticleCloudSDK.getCloud().isLoggedIn())
               startActivity(new Intent(this, MainActivity.class));
         else
@@ -26,5 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         App.getInstance().setCurrentActivity(this);
     }
+
+
 
 }

@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Garadget</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="event_alerts">EVENT ALERTS</string>
+    <string name="alert">Alert</string>
+    <string name="online">Online:</string>
+    <string name="open">Open:</string>
+    <string name="closed">Closed:</string>
+    <string name="stopped">Stopped:</string>
+    <string name="offline_alerts">Offline:</string>
+    <string name="enabled">Enabled</string>
+    <string name="reboot">Reboot:</string>
+    <string name="timeout_alert">TIMEOUT ALERT</string>
+    <string name="night_alerts">NIGHT ALERTS</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="location">Location</string>
+    <string name="door_radius">Door Radius</string>
+    <string name="radius">Radius</string>
+    <string name="push_url">https://www.garadget.com/my/json/pn-signup.php</string>
+    <string name="help_page_url">http://community.garadget.com/?ref=webapp&amp;page=alerts</string>
+    <bool name="organization">true</bool>
+    <string name="organization_name">Softcomplex, Inc</string>
+    <string name="organization_slug">softcomplex-inc</string>
+    <string name="product_slug">garadget-v13</string>
+
+    <string name="title_device">Device</string>
+    <string name="title_wifi_radio">WiFi Radio</string>
+
+    <string name="id">ID</string>
+    <string name="name">Name</string>
+    <string name="status">Status</string>
+    <string name="last_contact">Last Contact</string>
+    <string name="firmware_version">Firmware Version</string>
+    <string name="wifi_ssid">WiFi SSID</string>
+    <string name="signal_strength">Signal Strength</string>
+    <string name="ip">IP</string>
+    <string name="gateway">Gateway</string>
+    <string name="ip_mask">IP Mask</string>
+    <string name="mac">MAC</string>
+
+
+    <string name="close_door">Close door</string>
+    <string name="open_door">Open door</string>
+</resources>

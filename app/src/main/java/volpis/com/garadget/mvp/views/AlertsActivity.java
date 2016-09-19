@@ -49,7 +49,7 @@ import volpis.com.garadget.interfaces.AlertsMVP;
 import volpis.com.garadget.models.Door;
 import volpis.com.garadget.models.DoorLocation;
 import volpis.com.garadget.mvp.presenters.AlertPresenter;
-import volpis.com.garadget.utils.BitStatesConstants;
+import com.example.globalclasses.BitStatesConstants;
 import volpis.com.garadget.utils.FunctionConstants;
 import volpis.com.garadget.utils.SameItemClickSpinner;
 import volpis.com.garadget.utils.Utils;
