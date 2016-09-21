@@ -32,7 +32,9 @@ import volpis.com.garadget.models.NetConfig;
 import volpis.com.garadget.parser.GaradgetParser;
 import volpis.com.garadget.services.DataLayerListenerService;
 import volpis.com.garadget.utils.EventsConstants;
+
 import com.example.globalclasses.StatusConstants;
+
 import volpis.com.garadget.utils.Utils;
 import volpis.com.garadget.mvp.views.AlertsActivity;
 import volpis.com.garadget.interfaces.DoorsMVP;
@@ -86,7 +88,7 @@ public class DoorModel implements DoorsMVP.ModelOps {
 
     }
 
-    public void getListOfDevices(final ArrayList<DoorHolder> doorHolders) {
+    public void getListOfDevices(final ArrayList<DoorHolder> doorHolders, final boolean fromRefresh) {
         if (Utils.haveInternet(mContext)) {
             Async.executeAsync(ParticleCloud.get(mContext), new Async.ApiWork<ParticleCloud, Object>() {
                 @Override
@@ -121,6 +123,8 @@ public class DoorModel implements DoorsMVP.ModelOps {
                                     ((MainActivity) mContext).setDoors(doors);
                                     ((MainActivity) mContext).checkLocationListenerStart();
                                     mPresenter.setDoors(doors, mDevices);
+                                    if (fromRefresh)
+                                        DataLayerListenerService.sendDoorsToWear(doors, true);
                                 }
                             });
 

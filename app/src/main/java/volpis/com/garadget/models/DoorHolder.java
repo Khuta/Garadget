@@ -101,4 +101,12 @@ public class DoorHolder {
         }
     }
 
+    public void updateView() {
+        if (mView != null && mView.getContext() != null)
+            fillView(mView.getContext(), getDoor());
+    }
+
+    public void setDoor(Door door) {
+        this.mDoor = door;
+    }
 }

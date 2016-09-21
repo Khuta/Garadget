@@ -121,7 +121,7 @@ public class DataLayerListenerService extends WearableListenerService implements
                 if (processMessage)
                     processMessage();
                 else
-                    sendDoorsToWear(doors);
+                    sendDoorsToWear(doors, false);
             } catch (ParticleCloudException e) {
                 e.printStackTrace();
             }
@@ -167,7 +167,7 @@ public class DataLayerListenerService extends WearableListenerService implements
         });
     }
 
-    public static boolean sendDoorsToWear(ArrayList<Door> doors) {
+    public static boolean sendDoorsToWear(ArrayList<Door> doors, boolean fromRefresh) {
         ArrayList<DataMap> doorsToSend = new ArrayList<>();
         for (Door door : doors) {
             DataMap dataMap = new DataMap();
@@ -211,12 +211,13 @@ public class DataLayerListenerService extends WearableListenerService implements
             String signalStrengthString = null;
             if (doorStatus != null) {
                 signalStrengthString = doorStatus.getSignalString();
-                isOpen = doorStatus.getStatus().equals(StatusConstants.OPEN);
+                isOpen = doorStatus.getStatus().equals(StatusConstants.OPEN) || doorStatus.getStatus().equals(StatusConstants.OPENING);
                 signalStrength = doorStatus.getSignalStrength();
                 doorStatusTime = doorStatus.getTime();
             }
 
             DoorWearModel doorWearModel = new DoorWearModel(id, name, isOpen, isConnected, doorStatusTime, signalStrength, statusAlerts, lastContact, version, wifiSSID, signalStrengthString, IP, gateway, ipMask, MAC, doorMovingTime);
+            dataMap.putBoolean("fromRefresh", fromRefresh);
             doorsToSend.add(doorWearModel.putToDataMap(dataMap));
         }
 
@@ -230,7 +231,7 @@ public class DataLayerListenerService extends WearableListenerService implements
         DataMap dataMap = new DataMap();
         String id = door.getDevice().getID();
         String name = door.getName();
-        boolean isOpen = !door.getDoorStatus().getStatus().equals(StatusConstants.OPEN);
+        boolean isOpen = (door.getDoorStatus().getStatus().equals(StatusConstants.OPEN) || door.getDoorStatus().getStatus().equals(StatusConstants.OPENING));
         int signalStrength = door.getDoorStatus().getSignalStrength();
 
         DoorConfig doorConfig = door.getDoorConfig();
@@ -260,7 +261,7 @@ public class DataLayerListenerService extends WearableListenerService implements
         DataMap dataMap = new DataMap();
         String id = door.getDevice().getID();
         String name = door.getName();
-        boolean isOpen = door.getDoorStatus().getStatus().equals(StatusConstants.OPEN);
+        boolean isOpen = door.getDoorStatus().getStatus().equals(StatusConstants.OPEN) || door.getDoorStatus().getStatus().equals(StatusConstants.OPENING);
         int signalStrength = door.getDoorStatus().getSignalStrength();
 
         DoorConfig doorConfig = door.getDoorConfig();

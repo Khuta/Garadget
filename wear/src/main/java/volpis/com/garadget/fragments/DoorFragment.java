@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.globalclasses.CustomProgressBar;
+import com.example.globalclasses.StatusConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,11 +51,14 @@ public class DoorFragment extends Fragment {
                 tvTitle.setText(mDoorWearModel.getDoorTitle());
 
                 if (mDoorWearModel.isConnected()) {
-                    tvStatus.setText(mDoorWearModel.isOpened() ? "close" + " " + mDoorWearModel.getDoorStatusTime() : "open" + " " + mDoorWearModel.getDoorStatusTime());
+                    if (mDoorWearModel.isMoving())
+                        tvStatus.setText(mDoorWearModel.isOpened() ? "opening" + " " + mDoorWearModel.getDoorStatusTime() : "closing" + " " + mDoorWearModel.getDoorStatusTime());
+                    else
+                        tvStatus.setText(mDoorWearModel.isOpened() ? "open" + " " + mDoorWearModel.getDoorStatusTime() : "closed" + " " + mDoorWearModel.getDoorStatusTime());
                 } else {
                     long currentTime = System.currentTimeMillis();
                     long lastContactMillis = currentTime - mDoorWearModel.getLastContactMillis();
-                    tvStatus.setText(mDoorWearModel.isOpened() ? "close" + " " + Utils.toFormattedTime(lastContactMillis) : "open" + " " + Utils.toFormattedTime(lastContactMillis));
+                    tvStatus.setText("offline " + Utils.toFormattedTime(lastContactMillis));
 
                 }
 
@@ -78,6 +82,9 @@ public class DoorFragment extends Fragment {
         boolean isOpening = !mDoorWearModel.isOpened();
         long openingTime = mDoorWearModel.getDoorMovingTime();
         mDoorWearModel.setStatusChangeTime(System.currentTimeMillis());
+        mDoorWearModel.setMoving(true);
+        mDoorWearModel.setDoorStatusTime("0s");
+        mDoorWearModel.setOpened(isOpening);
 
         if (isAdded()) {
             final String animationImages[] = getResources().getStringArray(R.array.animation_images);
@@ -90,7 +97,7 @@ public class DoorFragment extends Fragment {
                 }
 
             final int frameDuration = (int) (openingTime / animationImages.length);
-
+            fillDoor(mDoorWearModel, true);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -107,6 +114,10 @@ public class DoorFragment extends Fragment {
                                     currentFrame[0]++;
                                     handlerAnim.postDelayed(this, frameDuration);
                                 }
+                            } else {
+                                mDoorWearModel.setMoving(false);
+                                mDoorWearModel.setDoorStatusTime("0s");
+                                fillDoor(mDoorWearModel, true);
                             }
                         }
                     };
@@ -143,25 +154,28 @@ public class DoorFragment extends Fragment {
                 tvTitle.setText(mDoorWearModel.getDoorTitle());
 
                 if (mDoorWearModel.isConnected()) {
-                    tvStatus.setText(mDoorWearModel.isOpened() ? "close" + " " + mDoorWearModel.getDoorStatusTime() : "open" + " " + mDoorWearModel.getDoorStatusTime());
+                    if (mDoorWearModel.isMoving())
+                        tvStatus.setText(mDoorWearModel.isOpened() ? "opening" + " " + mDoorWearModel.getDoorStatusTime() : "closing" + " " + mDoorWearModel.getDoorStatusTime());
+                    else
+                        tvStatus.setText(mDoorWearModel.isOpened() ? "open" + " " + mDoorWearModel.getDoorStatusTime() : "closed" + " " + mDoorWearModel.getDoorStatusTime());
                 } else {
                     long currentTime = System.currentTimeMillis();
                     long lastContactMillis = currentTime - mDoorWearModel.getLastContactMillis();
-                    tvStatus.setText(mDoorWearModel.isOpened() ? "close" + " " + Utils.toFormattedTime(lastContactMillis) : "open" + " " + Utils.toFormattedTime(lastContactMillis));
+                    tvStatus.setText("offline " + Utils.toFormattedTime(lastContactMillis));
                 }
 
+
+                Integer signalStrength = null;
+                if (mDoorWearModel.getSignalStrengthString() != null)
+                    signalStrength = mDoorWearModel.getSignalStrength();
                 if (refill) {
-                    Integer signalStrength = null;
-                    if (mDoorWearModel.getSignalStrengthString() != null)
-                        signalStrength = mDoorWearModel.getSignalStrength();
                     if (mDoorWearModel.isOpened()) {
                         ivDoor.setImageResource(R.drawable.ic_anim_garage_15_small);
-                        ivSignal.setImageResource(Utils.getSignalStrengthDrawable(getActivity(), signalStrength));
                     } else {
                         ivDoor.setImageResource(R.drawable.ic_anim_garage_01_small);
-                        ivSignal.setImageResource(Utils.getSignalStrengthDrawable(getActivity(), signalStrength));
                     }
                 }
+                ivSignal.setImageResource(Utils.getSignalStrengthDrawable(getActivity(), signalStrength));
             }
         }
     }
@@ -174,7 +188,6 @@ public class DoorFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == CHANGE_DOOR_CONDITION) {
             startAnimation();
-            mDoorWearModel.setOpened(!mDoorWearModel.isOpened());
             ((MainActivity) getActivity()).setDoor(mDoorWearModel);
             DataLayerListenerService.changeAppDoorStatus(mDoorWearModel);
         }

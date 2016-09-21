@@ -77,7 +77,7 @@ public class MainActivity extends WearableActivity {
         if (currentFragment instanceof DoorsPagerFragment) {
             ((DoorsPagerFragment) currentFragment).fillNewDoorStatus(doorWearModel);
         }
-        setDoor(doorWearModel);
+        setDoor(doorWearModel, false);
     }
 
     public void clearLoginStatus() {
@@ -138,11 +138,16 @@ public class MainActivity extends WearableActivity {
     }
 
     public void setDoor(DoorWearModel door) {
+        setDoor(door, true);
+    }
+
+    public void setDoor(DoorWearModel door, boolean refill) {
         if (mDoorWearModels != null)
             for (DoorWearModel doorWearModle : mDoorWearModels) {
                 if (door.getDoorId().equals(doorWearModle.getDoorId())) {
                     mDoorWearModels.set(mDoorWearModels.indexOf(doorWearModle), door);
-                    fillDoors(mDoorWearModels, false);
+                    if (refill)
+                        fillDoors(mDoorWearModels, false);
                     break;
                 }
             }

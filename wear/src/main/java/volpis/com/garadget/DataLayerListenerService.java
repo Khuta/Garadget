@@ -199,11 +199,15 @@ public class DataLayerListenerService extends WearableListenerService implements
                     Activity mainActivity = App.getInstance().getMainActivity();
                     ArrayList<DoorWearModel> doorWearModels = new ArrayList<>();
                     ArrayList<DataMap> dataMapArrayList = DataMapItem.fromDataItem(item).getDataMap().getDataMapArrayList(PathConstants.DOORS_KEY);
-                    if (!mIsDoorsLoaded) {
+
+                    boolean fromRefresh = false;
+                    for (DataMap dataMap : dataMapArrayList) {
+                        doorWearModels.add(new DoorWearModel(dataMap));
+                        fromRefresh = dataMap.getBoolean("fromRefresh", false);
+                    }
+
+                    if (!mIsDoorsLoaded || fromRefresh) {
                         mIsDoorsLoaded = true;
-                        for (DataMap dataMap : dataMapArrayList) {
-                            doorWearModels.add(new DoorWearModel(dataMap));
-                        }
                         Activity currentActivity = App.getInstance().getCurrentActivity();
                         if (currentActivity != null)
                             if (currentActivity instanceof AlertsActivity)
@@ -213,7 +217,8 @@ public class DataLayerListenerService extends WearableListenerService implements
                             else if (currentActivity instanceof ActionActivity)
                                 ((ActionActivity) currentActivity).fillDoors(doorWearModels);
                         if (mainActivity != null) {
-                            ((MainActivity) mainActivity).fillDoors(doorWearModels, true);
+                            ((MainActivity) mainActivity).showProgress(true);
+                            ((MainActivity) mainActivity).fillDoors(doorWearModels, !fromRefresh);
                         }
                     }
                 } else if (item.getUri().getPath().compareTo(PathConstants.CHANGE_DOOR_STATUS_PATH) == 0) { //door status changed

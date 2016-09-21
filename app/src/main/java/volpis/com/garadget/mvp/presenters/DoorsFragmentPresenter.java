@@ -73,8 +73,8 @@ public class DoorsFragmentPresenter implements DoorsMVP.RequiredPresenterOps, Do
 
 
     @Override
-    public void getListOfDevices(ArrayList<DoorHolder> doorHolder) {
-        mModel.getListOfDevices(doorHolder);
+    public void getListOfDevices(ArrayList<DoorHolder> doorHolder, boolean fromRefresh) {
+        mModel.getListOfDevices(doorHolder, fromRefresh);
     }
 
     @Override

@@ -146,7 +146,7 @@ public class EventSubscriberService extends Service {
                                                 if (door != null && door.getDoorConfig() != null) {
                                                     switch (particleEvent.dataPayload) {
                                                         case StatusConstants.OPENING:
-                                                            door.getDoorStatus().setStatus(StatusConstants.CLOSED);
+                                                            door.getDoorStatus().setStatus(StatusConstants.OPEN);
                                                             //  if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
                                                             if (!DataLayerListenerService.sendDoorStatusToWear(door)) {
                                                                 startService(new Intent(EventSubscriberService.this, DataLayerListenerService.class));
@@ -154,7 +154,7 @@ public class EventSubscriberService extends Service {
                                                             //   }
                                                             break;
                                                         case StatusConstants.CLOSING:
-                                                            door.getDoorStatus().setStatus(StatusConstants.OPEN);
+                                                            door.getDoorStatus().setStatus(StatusConstants.CLOSED);
                                                             //  if (doorHolder.getStatusChangeTime() + doorHolder.getDoor().getDoorConfig().getDoorMovingTime() < System.currentTimeMillis()) {
                                                             if (!DataLayerListenerService.sendDoorStatusToWear(door)) {
                                                                 startService(new Intent(EventSubscriberService.this, DataLayerListenerService.class));

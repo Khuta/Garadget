@@ -80,4 +80,8 @@ public class DoorStatus implements Parcelable {
             return new DoorStatus[size];
         }
     };
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

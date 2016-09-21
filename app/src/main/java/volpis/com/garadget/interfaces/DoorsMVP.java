@@ -35,7 +35,7 @@ public interface DoorsMVP {
      * View -> Presenter
      */
     interface PresenterOps {
-        void getListOfDevices(ArrayList<DoorHolder> doorHolder);
+        void getListOfDevices(ArrayList<DoorHolder> doorHolder, boolean fromRefresh);
 
         void onDestroy();
     }
@@ -47,7 +47,7 @@ public interface DoorsMVP {
     interface ModelOps {
         void changeDoorStatus(ParticleDevice device, DoorHolder doorHolder, String newStatus);
 
-        void getListOfDevices(ArrayList<DoorHolder> doorHolder);
+        void getListOfDevices(ArrayList<DoorHolder> doorHolder, boolean fromRefresh);
 
         void onDestroy();
     }

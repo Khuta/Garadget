@@ -62,7 +62,7 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
         ButterKnife.bind(this, view);
         mPresenter = new DoorsFragmentPresenter(getActivity(), this);
         setListeners();
-        mPresenter.getListOfDevices(mDoorHolders);
+        mPresenter.getListOfDevices(mDoorHolders, false);
         return view;
     }
 
@@ -70,7 +70,7 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.getListOfDevices(mDoorHolders);
+                mPresenter.getListOfDevices(mDoorHolders, true);
             }
         });
     }
@@ -92,6 +92,15 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
                     final View view = mLayoutInflater.inflate(R.layout.item_door, null);
                     DoorHolder doorHolder = initDoorView(view, door);
                     mDoorHolders.add(doorHolder);
+                }
+            } else {
+                for (DoorHolder doorHolder : mDoorHolders) {
+                    for (Door door : doors) {
+                        if (doorHolder.getDoor().getDevice().getID().equals(door.getDevice().getID())) {
+                            doorHolder.setDoor(door);
+                            doorHolder.updateView();
+                        }
+                    }
                 }
             }
 
@@ -174,16 +183,17 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
         for (DoorHolder doorHolder : mDoorHolders) {
             Door door = doorHolder.getDoor();
             if (door.getDevice().getID().equals(deviceId)) {
-                doorHolder.getDoor().getDoorStatus().setStatus(door.getDoorStatus().getStatus());
-                doorHolder.setStatusChangeTime(System.currentTimeMillis());
-                ((MainActivity) getActivity()).checkLocationListenerStart();
                 startAnimation(doorHolder, doorHolder.imageDoor, newStatus.equals(StatusConstants.OPEN), door.getDoorConfig().getDoorMovingTime());
             }
         }
     }
 
-    public void startAnimation(final DoorHolder doorHolder, final ImageView imageView, boolean isOpening, long openingTime) {
+    public void startAnimation(final DoorHolder doorHolder, final ImageView imageView, final boolean isOpening, long openingTime) {
         if (isAdded()) {
+            doorHolder.getDoor().getDoorStatus().setStatus(isOpening ? StatusConstants.OPENING : StatusConstants.CLOSING);
+            doorHolder.getDoor().getDoorStatus().setTime("0s");
+            doorHolder.setStatusChangeTime(System.currentTimeMillis());
+            ((MainActivity) getActivity()).checkLocationListenerStart();
             final String animationImages[] = getResources().getStringArray(R.array.animation_images);
             final ArrayList<String> sortedAnimationImages = new ArrayList<>();
             if (isOpening)
@@ -213,10 +223,15 @@ public class DoorsFragment extends Fragment implements DoorsMVP.RequiredViewOps 
                                         if (doorHolder.shouldRun)
                                             handlerAnim.postDelayed(this, frameDuration);
                                     }
+                                } else {
+                                    if (doorHolder != null && doorHolder.getDoor() != null && doorHolder.getDoor().getDoorStatus() != null)
+                                        doorHolder.getDoor().getDoorStatus().setStatus(isOpening ? StatusConstants.OPEN : StatusConstants.CLOSED);
+                                    doorHolder.fillView(getActivity(), doorHolder.getDoor());
                                 }
                             }
                         };
                         doorHolder.startAnim(handlerAnim, runnableAnim);
+                        doorHolder.fillView(getActivity(), doorHolder.getDoor());
                         //handlerAnim.post(runnableAnim);
                     }
                 }

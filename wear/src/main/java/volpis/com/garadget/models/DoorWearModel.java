@@ -22,6 +22,7 @@ public class DoorWearModel implements Serializable {
     private String mMAC;
     private int mDoorMovingTime;
     long statusChangeTime;
+    boolean isMoving = false;
 
     public DoorWearModel(String doorId, String doorTitle, boolean isOpened, boolean isConnected, String doorStatusTime, int signalStrength, int statusAlerts, long lastContactMillis, String version, String wifiSSID, String signalStrengthString, String IP, String gateway, String ipMask, String MAC, int doorMovingTime) {
         mDoorId = doorId;
@@ -184,5 +185,17 @@ public class DoorWearModel implements Serializable {
 
     public void setStatusChangeTime(long statusChangeTime) {
         this.statusChangeTime = statusChangeTime;
+    }
+
+    public void setDoorStatusTime(String mDoorStatusTime) {
+        this.mDoorStatusTime = mDoorStatusTime;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 }
